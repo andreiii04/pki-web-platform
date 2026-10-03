@@ -22,6 +22,7 @@ trust in the issuing CA and current certificate status.
 ## Table of contents
 
 - [Features](#features)
+- [Screenshots](#screenshots)
 - [Architecture](#architecture)
 - [Cryptographic design](#cryptographic-design)
 - [Tech stack](#tech-stack)
@@ -55,6 +56,14 @@ trust in the issuing CA and current certificate status.
 - **Consistent error model**: every API error returns the same JSON shape (see [API overview](#api-overview)).
 - **Interactive API docs**: OpenAPI 3 / Swagger UI with a JWT "Authorize" button.
 - **React SPA**: Verify, Generate and Sign flows with drag-and-drop upload and automatic logout when the API rejects the token.
+
+## Screenshots
+
+| Home | Generate a certificate |
+|---|---|
+| ![Home page](docs/screenshots/home.jpg) | ![Certificate generation form](docs/screenshots/generate.jpg) |
+| **Sign a document** | **Verify a signature** |
+| ![Certificate selection and PDF upload](docs/screenshots/sign.jpg) | ![Verification report: integrity valid, active, trusted CA](docs/screenshots/verify.jpg) |
 
 ## Architecture
 
