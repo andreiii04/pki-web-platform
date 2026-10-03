@@ -1,0 +1,196 @@
+# ============================================================
+#  PKI Web Platform — Spring Boot Configuration
+#  Default active profile: dev (override with SPRING_PROFILES_ACTIVE)
+# ============================================================
+
+spring:
+  application:
+    name: pki-platform
+
+  # Load variables from the monorepo .env file when present (root when started
+  # via spring-boot:run, parent dir when started from backend/). Real
+  # environment variables always take precedence over the file.
+  config:
+    import:
+      - optional:file:.env[.properties]
+      - optional:file:../.env[.properties]
+
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+  # --- PostgreSQL Datasource ---
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: PkiHikariPool
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+  # --- File uploads (matches the 10 MiB PDF limit enforced in DocumentController) ---
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 11MB
+
+# --- HTTP Server ---
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# ============================================================
+#  Spring JPA / Hibernate (shared config, overridden per profile below)
+# ============================================================
+spring.jpa:
+  open-in-view: false
+  properties:
+    hibernate:
+      format_sql: true
+      jdbc:
+        time_zone: UTC
+
+# ============================================================
+#  Flyway — database migrations (run on every profile)
+# ============================================================
+spring.flyway:
+  enabled: true
+  locations: classpath:db/migration
+  baseline-on-migrate: true
+  baseline-version: 0
+  validate-on-migrate: true
+  table: flyway_schema_history
+
+# ============================================================
+#  JWT — JSON Web Token (API authentication)
+# ============================================================
+jwt:
+  secret: ${JWT_SECRET}
+  expiration-ms: ${JWT_EXPIRATION_MS:3600000}
+  issuer: pki-platform
+  header: Authorization
+  prefix: "Bearer "
+
+# ============================================================
+#  PKI — CA and cryptographic parameters
+# ============================================================
+pki:
+  ca:
+    keystore-path: ${CA_KEYSTORE_PATH}
+    keystore-password: ${CA_KEYSTORE_PASSWORD}
+    key-alias: ${CA_KEY_ALIAS}
+  crypto:
+    rsa-key-size: 2048
+    signature-algorithm: SHA256withRSA
+    aes-master-key: ${AES_MASTER_KEY}
+  certificate:
+    validity-days: 365
+    organization-default: "PKI Web Platform Demo"
+    country: RO
+
+# ============================================================
+#  Springdoc / OpenAPI — auto-generated Swagger UI
+# ============================================================
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    try-it-out-enabled: true
+    display-request-duration: true
+  show-actuator: false
+  packages-to-scan: ro.etti.pki.platform
+
+# ============================================================
+#  Logging — per-package levels (overridden per profile below)
+# ============================================================
+logging:
+  level:
+    root: INFO
+    ro.etti.pki.platform: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.hibernate.SQL: INFO
+    org.hibernate.orm.jdbc.bind: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n"
+
+# ============================================================
+# ============================================================
+#  PROFILE: dev (default)
+#  Active when SPRING_PROFILES_ACTIVE=dev or by default
+# ============================================================
+# ============================================================
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+
+logging:
+  level:
+    ro.etti.pki.platform: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    # Bind parameters stay at INFO so password hashes and encrypted keys are never logged
+    org.hibernate.orm.jdbc.bind: INFO
+
+# ============================================================
+# ============================================================
+#  PROFILE: prod
+#  Active when SPRING_PROFILES_ACTIVE=prod
+# ============================================================
+# ============================================================
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+  devtools:
+    restart:
+      enabled: false
+    livereload:
+      enabled: false
+
+server:
+  error:
+    include-message: never
+    include-binding-errors: never
+    include-stacktrace: never
+
+logging:
+  level:
+    root: WARN
+    ro.etti.pki.platform: INFO
+    org.springframework.web: WARN
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN

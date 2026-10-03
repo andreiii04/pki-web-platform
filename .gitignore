@@ -1,0 +1,58 @@
+# === Secrets & keys (NEVER in Git) ===
+secrets/
+*.key
+*.pem
+*.p12
+*.jks
+*.pfx
+.env
+.env.local
+application-local.yml
+application-local.properties
+
+# === Java / Maven ===
+target/
+!.mvn/wrapper/maven-wrapper.jar
+*.class
+*.jar
+*.war
+hs_err_pid*
+
+# === IDEs ===
+.idea/
+*.iml
+*.iws
+out/
+.vscode/
+.classpath
+.project
+.settings/
+.factorypath
+
+# === Node / React ===
+node_modules/
+build/
+dist/
+.npm
+.eslintcache
+.parcel-cache/
+
+# === macOS ===
+.DS_Store
+.AppleDouble
+
+# === Logs ===
+logs/
+*.log
+
+# === Docker ===
+.docker/
+
+# === Office temp files ===
+~$*.docx
+~$*.xlsx
+
+# === Local tooling (never versioned) ===
+CLAUDE.md
+Claude.md
+.claude/
