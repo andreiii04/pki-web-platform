@@ -19,7 +19,7 @@
 
     <properties>
         <java.version>21</java.version>
-        <bouncycastle.version>1.84</bouncycastle.version>
+        <bouncycastle.version>1.85</bouncycastle.version>
         <itext.version>9.4.0</itext.version>
         <jjwt.version>0.13.0</jjwt.version>
         <springdoc.version>2.7.0</springdoc.version>

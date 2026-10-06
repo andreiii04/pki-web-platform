@@ -265,14 +265,14 @@ and `revoked_at IS NOT NULL` consistent.
 | Trust decision on verify | Signer certificate must name this CA as issuer **and** its signature must verify with the CA public key | Matching names alone could be spoofed by a look-alike CA. |
 | Passwords | BCrypt (strength 10) | Adaptive, salted password hashing. |
 | API tokens | JWT, HMAC-SHA512 (key ≥ 64 bytes), `iss` and `exp` enforced | Stateless auth; the algorithm is derived from the key length by JJWT. |
-| Provider | Bouncy Castle 1.84 registered as a JCA provider | Consistent algorithms across JDKs; X.509 builders (bcpkix). |
+| Provider | Bouncy Castle 1.85 registered as a JCA provider | Consistent algorithms across JDKs; X.509 builders (bcpkix). |
 
 ## Tech stack
 
 | Layer | Technologies |
 |---|---|
-| Backend | Java 21, Spring Boot 3.5 (Web, Security, Data JPA, Validation), Flyway, JJWT 0.13, Bouncy Castle 1.84, iText 9.4, springdoc-openapi 2.7 |
-| Frontend | React 18, Vite 5, Tailwind CSS 3, React Router 6, Axios, ESLint 9 |
+| Backend | Java 21, Spring Boot 3.5 (Web, Security, Data JPA, Validation), Flyway, JJWT 0.13, Bouncy Castle 1.85, iText 9.4, springdoc-openapi 2.7 |
+| Frontend | React 18, Vite 6, Tailwind CSS 3, React Router 6, Axios, ESLint 9 |
 | Database | PostgreSQL 16 (Docker Compose) |
 | Tooling | Maven Wrapper, OpenSSL 3 (CA generation), GitHub Actions CI |
 
