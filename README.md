@@ -272,7 +272,7 @@ and `revoked_at IS NOT NULL` consistent.
 | Layer | Technologies |
 |---|---|
 | Backend | Java 21, Spring Boot 3.5 (Web, Security, Data JPA, Validation), Flyway, JJWT 0.13, Bouncy Castle 1.85, iText 9.4, springdoc-openapi 2.7 |
-| Frontend | React 18, Vite 6, Tailwind CSS 3, React Router 6, Axios, ESLint 9 |
+| Frontend | React 18, Vite 6, Tailwind CSS 3, React Router 7, Axios, ESLint 9 |
 | Database | PostgreSQL 16 (Docker Compose) |
 | Tooling | Maven Wrapper, OpenSSL 3 (CA generation), GitHub Actions CI |
 
