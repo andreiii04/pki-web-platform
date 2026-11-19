@@ -312,10 +312,26 @@ and `revoked_at IS NOT NULL` consistent.
 
 ### Prerequisites
 
-- **Java 21** (e.g. Temurin; `.sdkmanrc` is provided for SDKMAN users)
+- **Java 21** (see [Java setup](#java-setup))
 - **Node.js 20+** and npm
 - **Docker** with Docker Compose v2
 - **OpenSSL 3** (macOS: `brew install openssl@3`; the system LibreSSL is not sufficient)
+
+#### Java setup
+
+The backend targets Java 21 and is built and CI-tested on Eclipse Temurin, but any JDK 21 works.
+
+```bash
+# macOS (Homebrew)
+brew install --cask temurin@21
+
+# If a newer JDK is your default, point the build at 21
+export JAVA_HOME=$(/usr/libexec/java_home -v 21)
+```
+
+On Linux or Windows, install Temurin 21 from [adoptium.net](https://adoptium.net/). SDKMAN users can run `sdk env install` (the repo includes a `.sdkmanrc`).
+
+Check with `cd backend && ./mvnw -v`, which should report Java 21.
 
 ### 1. Configure the environment
 
